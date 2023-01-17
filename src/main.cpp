@@ -55,22 +55,22 @@ emyPxgcYxn/eR44/KJ4EBs+lVDR3veyJm+kXQ99b21/+jh5Xos1AnX5iItreGCc=
 
 DHT_Unified dht(SENSOR, DHTTYPE);
 
-// // client wifi (question 7)
-// WiFiClientSecure client;
-// PubSubClient mqtt_client(client);
+// client wifi (question 7)
+WiFiClientSecure client;
+PubSubClient mqtt_client(client);
 
-// // connexion au reseau wifi (question 8)
-// void connect_wifi() {
-//   Serial.print("Connecting to WiFi");
-//   WiFi.begin(wifi_ssid, wifi_password);
-//   // attempt to connect to Wifi network:
-//   while (WiFi.status() != WL_CONNECTED) {
-//     Serial.print(".");
-//     // wait 2OOms for re-trying
-//     delay(200);
-//   }
-//   Serial.println("\nConnected.");
-// }
+// connexion au reseau wifi (question 8)
+void connect_wifi() {
+  Serial.print("Connecting to WiFi");
+  WiFi.begin(wifi_ssid, wifi_password);
+  // attempt to connect to Wifi network:
+  while (WiFi.status() != WL_CONNECTED) {
+    Serial.print(".");
+    // wait 2OOms for re-trying
+    delay(200);
+  }
+  Serial.println("\nConnected.");
+}
 
 void setup() {
   // Begin serial communication
@@ -116,17 +116,17 @@ void setup() {
   }
 
   // Send data to the broker with MQTT
-  // char temperature[15];
-  // char humidite[15];
-  // sprintf(temperature, "%f °C",temp_measure);
-  // sprintf(humidite, "%f %",relative_humidity_measure);
+  char temperature[15];
+  char humidite[15];
+  sprintf(temperature, "%f °C",temp_measure);
+  sprintf(humidite, "%f %",relative_humidity_measure);
 
-  // if (mqtt_client.connect(client_id,mqtt_user,mqtt_pass)) {
-  //   mqtt_client.publish("TD04_GP05/temp",temperature);
-  //   mqtt_client.publish("TD04_GP05/relhum",humidite);
-  // }else{
-  //   Serial.print("La connexion au server a échoué...Reconnexion...");
-  // }
+  if (mqtt_client.connect(client_id,mqtt_user,mqtt_pass)) {
+    mqtt_client.publish("TD04_GP05/temp",temperature);
+    mqtt_client.publish("TD04_GP05/relhum",humidite);
+  }else{
+    Serial.print("La connexion au server a échoué...Reconnexion...");
+  }
   // ...
 
   Serial.println("Going to sleep for 5 seconds...");
